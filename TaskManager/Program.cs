@@ -12,11 +12,12 @@ namespace TaskManager
 			while (isActive)
 			{
 				Console.Clear();
-				Console.WriteLine("Task Manager");
+				Console.WriteLine("Welcome to Task Manager, choose an option to apply:");
 				Console.WriteLine("1. Add Task.");
 				Console.WriteLine("2. View Task(s).");
 				Console.WriteLine("3. Mark Task as Done.");
 				Console.WriteLine("4. Delete Task.");
+				Console.WriteLine("5. Exit");
 				Console.WriteLine("Choose an option:");
 
 
@@ -39,7 +40,7 @@ namespace TaskManager
 						isActive = false;
 						break;
 					default:
-						Console.WriteLine("Option not founded. Press Enter to try again.");
+						Console.WriteLine("Option not found. Press Enter to try again.");
 						Console.ReadLine();
 						break;
 				}
@@ -50,12 +51,11 @@ namespace TaskManager
 		public static void AddTask()
 		{
 			Console.Write("Enter task: ");
-			string name = Console.ReadLine();
-			tasks.Add(new Task
-			{
-				Name = name,
-				IsDone = false
-			});
+			var name = Console.ReadLine();
+			
+			var newTask = new Task(name);
+			tasks.Add(newTask);
+
 			Console.WriteLine("Task is added. Press Enter to return to options.");
 			Console.ReadLine();
 		}
@@ -83,9 +83,9 @@ namespace TaskManager
 		{
 			ViewTask();
 			Console.Write("Enter the number of task to be marked as done:");
-			if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= tasks.Count)
+			if (int.TryParse(Console.ReadLine(), out int i) && i > 0 && i <= tasks.Count)
 			{
-				tasks[index - 1].IsDone = true;
+				tasks[i - 1].IsDone = true;
 				Console.WriteLine("Task marked as done. Press Enter to return to options.");
 			}
 			else
@@ -99,7 +99,7 @@ namespace TaskManager
 
 			ViewTask();
 			Console.Write("Enter the number of task to be deleted:");
-			if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index < tasks.Count)
+			if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= tasks.Count)
 			{
 				tasks.RemoveAt(index - 1);
 				Console.WriteLine("Task deleted. Press Enter to return to options.");
@@ -112,11 +112,7 @@ namespace TaskManager
 		}
 
 
-		public class Task
-		{
-			public string Name { get; set; }
-			public bool IsDone { get; set; }
-		}
+		
 	}
 }
 
